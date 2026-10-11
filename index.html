@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LocalPay BW</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#07111f;
+  color:#fff;
+  min-height:100vh;
+}
+.container{max-width:480px;margin:auto;padding:22px}
+.logo{
+  width:68px;height:68px;border-radius:20px;
+  background:linear-gradient(135deg,#00c853,#00a884);
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;font-weight:bold;
+  box-shadow:0 10px 30px #0006;
+  margin-bottom:20px;
+}
+h1{font-size:32px;margin-bottom:8px}
+.subtitle{color:#aab7c7;margin-bottom:28px;line-height:1.5}
+.card{
+  background:#101d2d;
+  border:1px solid #24364d;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow:0 10px 30px #0003;
+}
+input,select{
+  width:100%;padding:15px;margin:8px 0 12px;
+  border-radius:12px;border:1px solid #34475f;
+  background:#07111f;color:#fff;font-size:16px;
+}
+button{
+  width:100%;padding:15px;border:0;border-radius:12px;
+  background:#00c853;color:#fff;font-size:16px;
+  font-weight:bold;margin-top:8px;cursor:pointer;
+}
+button.secondary{background:#1c3047}
+button.danger{background:#d32f2f}
+.link{
+  color:#00e676;text-align:center;margin-top:18px;
+  cursor:pointer;
+}
+.hidden{display:none}
+.balance{
+  font-size:34px;font-weight:bold;margin:12px 0;
+}
+.badge{
+  display:inline-block;background:#123d2b;color:#00e676;
+  padding:7px 12px;border-radius:20px;font-size:13px;
+}
+.grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+}
+.action{
+  background:#14263b;border:1px solid #263e59;
+  padding:20px 10px;border-radius:16px;text-align:center;
+  cursor:pointer;
+}
+.action span{display:block;font-size:25px;margin-bottom:8px}
+.header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:20px;
+}
+.small{color:#9eb0c4;font-size:14px}
+footer{
+  text-align:center;color:#708196;font-size:12px;
+  padding:25px 0;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<!-- HOME -->
+<section id="home">
+  <div class="logo">LP</div>
+  <h1>LocalPay BW</h1>
+  <p class="subtitle">
+    Botswana's digital payments and services platform.
+    Simple, secure and built for local businesses and customers.
+  </p>
+
+  <div class="card">
+    <h2>Welcome 🇧🇼</h2>
+    <p class="small" style="margin:12px 0">
+      Create an account or sign in to access your LocalPay BW dashboard.
+    </p>
+    <button onclick="show('register')">Create Account</button>
+    <button class="secondary" onclick="show('login')">Login</button>
+  </div>
+
+  <div class="card">
+    <h3>What you can do</h3>
+    <p class="small" style="margin-top:12px">💰 Manage your LocalPay balance</p>
+    <p class="small" style="margin-top:10px">🛍️ Sell services</p>
+    <p class="small" style="margin-top:10px">📱 Choose Orange Money or MyZaka</p>
+    <p class="small" style="margin-top:10px">🏪 Support local businesses</p>
+  </div>
+
+  <footer>Created by local Motswana: GJeff Eli HGaetwesepe</footer>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="hidden">
+  <div class="logo">LP</div>
+  <h1>Create Account</h1>
+  <p class="subtitle">Join LocalPay BW</p>
+
+  <div class="card">
+    <input id="regName" placeholder="Full name">
+    <input id="regPhone" placeholder="Phone number">
+    <input id="regPassword" type="password" placeholder="Create password">
+
+    <select id="regType">
+      <option value="customer">Customer</option>
+      <option value="business">Business / Seller</option>
+    </select>
+
+    <button onclick="register()">Create Account</button>
+    <div class="link" onclick="show('login')">Already have an account? Login</div>
+  </div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="hidden">
+  <div class="logo">LP</div>
+  <h1>Welcome Back</h1>
+  <p class="subtitle">Login to LocalPay BW</p>
+
+  <div class="card">
+    <input id="loginPhone" placeholder="Phone number">
+    <input id="loginPassword" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <div class="link" onclick="show('register')">Create a new account</div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden">
+  <div class="header">
+    <div>
+      <div class="small">Welcome</div>
+      <h2 id="userName">User</h2>
+    </div>
+    <span class="badge" id="userType">Customer</span>
+  </div>
+
+  <div class="card">
+    <div class="small">LocalPay Balance</div>
+    <div class="balance">P <span id="balance">0.00</span></div>
+    <div class="small">Available balance</div>
+  </div>
+
+  <div class="grid">
+    <div class="action" onclick="show('deposit')">
+      <span>💰</span>Deposit
+    </div>
+    <div class="action" onclick="show('sell')">
+      <span>🛍️</span>Sell
+    </div>
+    <div class="action" onclick="alert('Send-money feature will be connected to the payment system later.')">
+      <span>📤</span>Send
+    </div>
+    <div class="action" onclick="alert('Transaction history will appear here.')">
+      <span>📋</span>History
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>LocalPay BW</h3>
+    <p class="small" style="margin-top:10px">
+      Payment integrations will be connected before real-money transactions are enabled.
+    </p>
+  </div>
+
+  <button class="danger" onclick="logout()">Logout</button>
+</section>
+
+<!-- DEPOSIT -->
+<section id="deposit" class="hidden">
+  <h1>Deposit</h1>
+  <p class="subtitle">Choose your payment method</p>
+
+  <div class="card">
+    <label>Amount (Pula)</label>
+    <input id="depositAmount" type="number" placeholder="e.g. 50">
+
+    <select id="paymentMethod">
+      <option value="Orange Money">Orange Money</option>
+      <option value="MyZaka">MyZaka</option>
+    </select>
+
+    <button onclick="requestDeposit()">Continue</button>
+    <button class="secondary" onclick="show('dashboard')">Back</button>
+  </div>
+</section>
+
+<!-- SELL -->
+<section id="sell" class="hidden">
+  <h1>Sell a Service</h1>
+  <p class="subtitle">Create a service for customers</p>
+
+  <div class="card">
+    <input id="serviceName" placeholder="Service name">
+    <input id="servicePrice" type="number" placeholder="Price in Pula">
+
+    <button onclick="createService()">Publish Service</button>
+    <button class="secondary" onclick="show('dashboard')">Back</button>
+  </div>
+</section>
+
+</div>
+
+<script>
+let currentUser=null;
+
+function show(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+function getUsers(){
+  return JSON.parse(localStorage.getItem('localpay_users') || '[]');
+}
+
+function register(){
+  const name=document.getElementById('regName').value.trim();
+  const phone=document.getElementById('regPhone').value.trim();
+  const password=document.getElementById('regPassword').value;
+  const type=document.getElementById('regType').value;
+
+  if(!name || !phone || !password){
+    alert('Please complete all fields.');
+    return;
+  }
+
+  let users=getUsers();
+
+  if(users.some(u=>u.phone===phone)){
+    alert('This phone number is already registered.');
+    return;
+  }
+
+  const user={
+    name:name,
+    phone:phone,
+    password:password,
+    type:type,
+    balance:0
+  };
+
+  users.push(user);
+  localStorage.setItem('localpay_users',JSON.stringify(users));
+
+  alert('Account created successfully!');
+  show('login');
+}
+
+function login(){
+  const phone=document.getElementById('loginPhone').value.trim();
+  const password=document.getElementById('loginPassword').value;
+
+  const users=getUsers();
+  const user=users.find(u=>u.phone===phone && u.password===password);
+
+  if(!user){
+    alert('Incorrect phone number or password.');
+    return;
+  }
+
+  currentUser=user;
+  updateDashboard();
+  show('dashboard');
+}
+
+function updateDashboard(){
+  document.getElementById('userName').textContent=currentUser.name;
+  document.getElementById('userType').textContent=
+    currentUser.type==='business' ? 'Business / Seller' : 'Customer';
+  document.getElementById('balance').textContent=
+    Number(currentUser.balance).toFixed(2);
+}
+
+function requestDeposit(){
+  const amount=Number(document.getElementById('depositAmount').value);
+  const method=document.getElementById('paymentMethod').value;
+
+  if(!amount || amount<=0){
+    alert('Enter a valid amount.');
+    return;
+  }
+
+  alert(
+    'Deposit request created for P'+amount.toFixed(2)+
+    ' using '+method+
+    '. Real payment processing will be connected later.'
+  );
+
+  show('dashboard');
+}
+
+function createService(){
+  const name=document.getElementById('serviceName').value.trim();
+  const price=Number(document.getElementById('servicePrice').value);
+
+  if(!name || !price){
+    alert('Enter the service name and price.');
+    return;
+  }
+
+  alert('Service "'+name+'" created at P'+price.toFixed(2)+'.');
+  show('dashboard');
+}
+
+function logout(){
+  currentUser=null;
+  show('home');
+}
+</script>
+</body>
+</html>
